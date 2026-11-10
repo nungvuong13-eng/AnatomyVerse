@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnatomyVerse - Tĩnh mạch tim</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f5fa;
+            color: #243447;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #123c69, #1c7293);
+            color: white;
+            text-align: center;
+            padding: 35px 15px;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 25px auto;
+            padding: 0 18px;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #176b87;
+            margin-bottom: 15px;
+            border-left: 5px solid #1c7293;
+            padding-left: 12px;
+        }
+
+        .model iframe {
+            width: 100%;
+            height: 550px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .video iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .note {
+            background: #e8f5fb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #1677a5;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #105675;
+        }
+
+        footer {
+            background: #123c69;
+            color: white;
+            text-align: center;
+            padding: 22px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 23px;
+            }
+
+            .section {
+                padding: 16px;
+            }
+
+            .model iframe {
+                height: 380px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>ANATOMYVERSE</h1>
+    <p>Vũ trụ giải phẫu cơ thể người - Học tập tương tác 3D</p>
+</header>
+
+<div class="container">
+
+    <section class="section">
+        <h2>1. Khám phá mô hình 3D tĩnh mạch tim</h2>
+
+        <p>
+            Quan sát mô hình 3D để tìm hiểu vị trí và cấu tạo
+            của hệ thống tĩnh mạch tim.
+        </p>
+
+        <div class="model">
+            <iframe
+                title="Cardiac Anatomy: Cardiac veins of the heart"
+                src="https://sketchfab.com/models/faa6c5b169ec4928bda1f6bf36e0fcb6/embed"
+                allow="autoplay; fullscreen; xr-spatial-tracking"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="note">
+            <strong>Nhiệm vụ học tập:</strong>
+            <p>
+                - Xác định vị trí các tĩnh mạch trên mô hình tim.<br>
+                - Quan sát đường đi của máu trong hệ thống tĩnh mạch tim.<br>
+                - Tìm hiểu vai trò của tĩnh mạch tim.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>2. Video khám phá kiến thức</h2>
+
+        <p>
+            Theo dõi video để tìm hiểu thêm về cấu tạo
+            và hoạt động của tim người.
+        </p>
+
+        <div class="video">
+            <iframe
+                src="https://www.youtube.com/embed/r4TAbYsUwlA"
+                title="Video tìm hiểu về tim"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>3. Tài liệu tham khảo</h2>
+
+        <p>
+            Học sinh truy cập tài liệu để tìm hiểu sâu hơn
+            về cấu tạo và chức năng của tim.
+        </p>
+
+        <a class="btn"
+           href="https://vi.wikipedia.org/wiki/Tim"
+           target="_blank">
+           Khám phá kiến thức về tim
+        </a>
+    </section>
+
+    <section class="section">
+        <h2>4. Kiểm tra kiến thức - Wayground</h2>
+
+        <p>
+            Học sinh tham gia bài kiểm tra tương tác
+            để củng cố kiến thức vừa học.
+        </p>
+
+        <a class="btn"
+           href="https://wayground.com/join/dashboard"
+           target="_blank">
+           Truy cập Wayground
+        </a>
+    </section>
+
+</div>
+
+<footer>
+    <p>ANATOMYVERSE - Khám phá cơ thể người bằng công nghệ 3D</p>
+    <p>Học tập trực quan - Tương tác - Sáng tạo</p>
+</footer>
+
+</body>
+</html>

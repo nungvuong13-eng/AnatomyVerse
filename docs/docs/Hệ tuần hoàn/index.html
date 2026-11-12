@@ -2,210 +2,593 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnatomyVerse - Tĩnh mạch tim</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnatomyVerse - Khám phá hệ tuần hoàn</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f5fa;
-            color: #243447;
-            line-height: 1.6;
-        }
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #eaf0f5;
+    color: #243447;
+}
 
-        header {
-            background: linear-gradient(135deg, #123c69, #1c7293);
-            color: white;
-            text-align: center;
-            padding: 35px 15px;
-        }
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
 
-        header h1 {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
+/* KHÔNG GIAN 3D */
+.viewer {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    background: #e9eef3;
+    overflow: hidden;
+}
 
-        header p {
-            font-size: 16px;
-        }
+.model-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
 
-        .container {
-            max-width: 1100px;
-            margin: 25px auto;
-            padding: 0 18px;
-        }
+.model-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
 
-        .section {
-            background: white;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 14px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-        }
+/* THANH TRÊN */
+.topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    background: linear-gradient(
+        to bottom,
+        rgba(20, 35, 50, 0.48),
+        transparent
+    );
+}
 
-        h2 {
-            color: #176b87;
-            margin-bottom: 15px;
-            border-left: 5px solid #1c7293;
-            padding-left: 12px;
-        }
+.logo {
+    color: white;
+    font-size: 23px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 5px #333;
+}
 
-        .model iframe {
-            width: 100%;
-            height: 550px;
-            border: none;
-            border-radius: 10px;
-        }
+.top-actions {
+    display: flex;
+    gap: 12px;
+}
 
-        .video iframe {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border: none;
-            border-radius: 10px;
-        }
+.top-actions button {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.88);
+    color: #174d65;
+    font-size: 23px;
+    font-weight: bold;
+}
 
-        .note {
-            background: #e8f5fb;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
+.top-actions button:hover {
+    background: #d9edf5;
+}
 
-        .btn {
-            display: inline-block;
-            background: #1677a5;
-            color: white;
-            padding: 12px 22px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-top: 10px;
-            font-weight: bold;
-        }
+/* TÊN CHỦ ĐỀ */
+.topic {
+    position: absolute;
+    top: 85px;
+    left: 22px;
+    z-index: 3;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.88);
+    color: #155b72;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
 
-        .btn:hover {
-            background: #105675;
-        }
+.topic h1 {
+    font-size: 20px;
+}
 
-        footer {
-            background: #123c69;
-            color: white;
-            text-align: center;
-            padding: 22px;
-            margin-top: 30px;
-        }
+.topic p {
+    font-size: 12px;
+    margin-top: 3px;
+    color: #526d7a;
+}
 
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 23px;
-            }
+/* THANH CÔNG CỤ DƯỚI */
+.toolbar {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.96);
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+}
 
-            .section {
-                padding: 16px;
-            }
+.tool-button {
+    min-width: 80px;
+    height: 72px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: #17617b;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
 
-            .model iframe {
-                height: 380px;
-            }
-        }
-    </style>
+.tool-button .tool-icon {
+    width: 32px;
+    height: 32px;
+    display: block;
+    object-fit: contain;
+}
+
+.tool-button span {
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tool-button:hover,
+.tool-button.active {
+    background: #e3f1f6;
+    transform: translateY(-2px);
+}
+
+/* BẢNG HỌC LIỆU */
+.resource-panel {
+    display: none;
+    position: absolute;
+    z-index: 8;
+    left: 50%;
+    bottom: 120px;
+    transform: translateX(-50%);
+    width: min(650px, calc(100% - 28px));
+    max-height: 65vh;
+    overflow-y: auto;
+    padding: 22px;
+    background: rgba(255,255,255,0.97);
+    border-radius: 18px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+}
+
+.resource-panel.show {
+    display: block;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.panel-header h2 {
+    color: #176b87;
+    font-size: 21px;
+}
+
+.close-panel {
+    border: none;
+    background: #e8f1f5;
+    color: #17617b;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.panel-content {
+    line-height: 1.6;
+}
+
+.panel-content p {
+    margin-bottom: 12px;
+}
+
+.panel-content iframe {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    display: block;
+}
+
+.video-frame {
+    aspect-ratio: 16 / 9;
+}
+
+.panel-link {
+    display: inline-block;
+    background: #1677a5;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.panel-link:hover {
+    background: #105675;
+}
+
+/* NHIỆM VỤ */
+.task-box {
+    margin-top: 15px;
+    padding: 15px;
+    background: #e8f5fb;
+    border-radius: 10px;
+}
+
+.task-box h3 {
+    color: #176b87;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.task-box p {
+    margin-bottom: 5px;
+}
+
+/* ĐIỆN THOẠI */
+@media (max-width: 600px) {
+    .topbar {
+        height: 55px;
+        padding: 0 12px;
+    }
+
+    .logo {
+        font-size: 17px;
+    }
+
+    .top-actions {
+        gap: 6px;
+    }
+
+    .top-actions button {
+        width: 35px;
+        height: 35px;
+        font-size: 19px;
+    }
+
+    .topic {
+        top: 68px;
+        left: 12px;
+        padding: 8px 11px;
+    }
+
+    .topic h1 {
+        font-size: 16px;
+    }
+
+    .topic p {
+        font-size: 10px;
+    }
+
+    .toolbar {
+        width: calc(100% - 20px);
+        bottom: 12px;
+        gap: 3px;
+        padding: 7px 5px;
+        border-radius: 14px;
+    }
+
+    .tool-button {
+        flex: 1;
+        min-width: 0;
+        height: 62px;
+        gap: 4px;
+    }
+
+    .tool-button .tool-icon {
+        width: 27px;
+        height: 27px;
+    }
+
+    .tool-button span {
+        font-size: 9px;
+    }
+
+    .resource-panel {
+        bottom: 90px;
+        max-height: 65vh;
+        padding: 16px;
+    }
+
+    .panel-header h2 {
+        font-size: 18px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<header>
-    <h1>ANATOMYVERSE</h1>
-    <p>Vũ trụ giải phẫu cơ thể người - Học tập tương tác 3D</p>
-</header>
+<main class="viewer">
 
-<div class="container">
+    <!-- MÔ HÌNH 3D SKETCHFAB -->
+    <div class="model-frame">
+        <iframe
+            title="Cardiac Anatomy - Cardiac veins of the heart"
+            src="https://sketchfab.com/models/faa6c5b169ec4928bda1f6bf36e0fcb6/embed?autostart=1&ui_theme=light"
+            allow="autoplay; fullscreen; xr-spatial-tracking"
+            allowfullscreen>
+        </iframe>
+    </div>
 
-    <section class="section">
-        <h2>1. Khám phá mô hình 3D tĩnh mạch tim</h2>
+    <!-- THANH TRÊN -->
+    <header class="topbar">
+        <div class="logo">AV</div>
 
-        <p>
-            Quan sát mô hình 3D để tìm hiểu vị trí và cấu tạo
-            của hệ thống tĩnh mạch tim.
-        </p>
-
-        <div class="model">
-            <iframe
-                title="Cardiac Anatomy: Cardiac veins of the heart"
-                src="https://sketchfab.com/models/faa6c5b169ec4928bda1f6bf36e0fcb6/embed"
-                allow="autoplay; fullscreen; xr-spatial-tracking"
-                allowfullscreen>
-            </iframe>
+        <div class="top-actions">
+            <button onclick="sharePage()" title="Chia sẻ">↗</button>
+            <button onclick="toggleFullscreen()" title="Toàn màn hình">⛶</button>
+            <button onclick="goBack()" title="Quay lại">×</button>
         </div>
+    </header>
 
-        <div class="note">
-            <strong>Nhiệm vụ học tập:</strong>
-            <p>
-                - Xác định vị trí các tĩnh mạch trên mô hình tim.<br>
-                - Quan sát đường đi của máu trong hệ thống tĩnh mạch tim.<br>
-                - Tìm hiểu vai trò của tĩnh mạch tim.
-            </p>
-        </div>
+    <!-- CHỦ ĐỀ -->
+    <section class="topic">
+        <h1>HỆ TUẦN HOÀN</h1>
+        <p>Khám phá giải phẫu cơ thể người</p>
     </section>
 
-    <section class="section">
-        <h2>2. Video khám phá kiến thức</h2>
+    <!-- BẢNG HỌC LIỆU -->
+    <section class="resource-panel" id="resourcePanel">
+        <div class="panel-header">
+            <h2 id="panelTitle">Học liệu AnatomyVerse</h2>
+            <button class="close-panel" onclick="closePanel()">×</button>
+        </div>
 
-        <p>
-            Theo dõi video để tìm hiểu thêm về cấu tạo
-            và hoạt động của tim người.
-        </p>
+        <div class="panel-content" id="panelContent"></div>
+    </section>
 
-        <div class="video">
+    <!-- THANH CÔNG CỤ DƯỚI -->
+    <nav class="toolbar">
+
+        <!-- YOUTUBE -->
+        <button class="tool-button"
+                onclick="openResource('video', this)"
+                title="Video YouTube">
+            <svg class="tool-icon" viewBox="0 0 24 24"
+                 aria-label="YouTube">
+                <path fill="#CC0000"
+                    d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8z"/>
+                <path fill="#fff"
+                    d="M9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/>
+            </svg>
+            <span>YouTube</span>
+        </button>
+
+        <!-- WIKIPEDIA -->
+        <button class="tool-button"
+                onclick="openResource('document', this)"
+                title="Wikipedia tiếng Việt">
+            <img class="tool-icon"
+                 src="https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg"
+                 alt="Wikipedia">
+            <span>Wikipedia</span>
+        </button>
+
+        <!-- WAYGROUND -->
+        <button class="tool-button"
+                onclick="openResource('quiz', this)"
+                title="Kiểm tra Wayground">
+            <img class="tool-icon"
+                 src="https://www.google.com/s2/favicons?domain=wayground.com&sz=128"
+                 alt="Wayground">
+            <span>Kiểm tra</span>
+        </button>
+
+        <!-- NHIỆM VỤ -->
+        <button class="tool-button"
+                onclick="openResource('task', this)"
+                title="Nhiệm vụ học tập">
+            <svg class="tool-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="#8B5BC7"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                <path d="M8 7h8M8 11h8"/>
+            </svg>
+            <span>Nhiệm vụ</span>
+        </button>
+
+    </nav>
+</main>
+
+<script>
+const panel = document.getElementById("resourcePanel");
+const panelTitle = document.getElementById("panelTitle");
+const panelContent = document.getElementById("panelContent");
+
+/* MỞ HỌC LIỆU */
+function openResource(type, button) {
+
+    document.querySelectorAll(".tool-button")
+        .forEach(btn => btn.classList.remove("active"));
+
+    if (panel.classList.contains("show") &&
+        panel.dataset.type === type) {
+        closePanel();
+        return;
+    }
+
+    panel.dataset.type = type;
+    panel.classList.add("show");
+
+    if (button) button.classList.add("active");
+
+    if (type === "video") {
+
+        panelTitle.textContent = "Video khám phá kiến thức";
+
+        panelContent.innerHTML = `
+            <p>Theo dõi video để tìm hiểu cấu tạo và hoạt động của tim người.</p>
             <iframe
+                class="video-frame"
                 src="https://www.youtube.com/embed/r4TAbYsUwlA"
                 title="Video tìm hiểu về tim"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen>
             </iframe>
-        </div>
-    </section>
+        `;
+    }
 
-    <section class="section">
-        <h2>3. Tài liệu tham khảo</h2>
+    else if (type === "document") {
 
-        <p>
-            Học sinh truy cập tài liệu để tìm hiểu sâu hơn
-            về cấu tạo và chức năng của tim.
-        </p>
+        panelTitle.textContent = "Tài liệu tham khảo";
 
-        <a class="btn"
-           href="https://vi.wikipedia.org/wiki/Tim"
-           target="_blank">
-           Khám phá kiến thức về tim
-        </a>
-    </section>
+        panelContent.innerHTML = `
+            <p>Khám phá kiến thức về cấu tạo và chức năng của tim người.</p>
+            <a class="panel-link"
+               href="https://vi.wikipedia.org/wiki/Tim"
+               target="_blank"
+               rel="noopener">
+               Khám phá kiến thức về tim
+            </a>
+        `;
+    }
 
-    <section class="section">
-        <h2>4. Kiểm tra kiến thức - Wayground</h2>
+    else if (type === "quiz") {
 
-        <p>
-            Học sinh tham gia bài kiểm tra tương tác
-            để củng cố kiến thức vừa học.
-        </p>
+        panelTitle.textContent = "Kiểm tra kiến thức - Wayground";
 
-        <a class="btn"
-           href="https://wayground.com/join/dashboard"
-           target="_blank">
-           Truy cập Wayground
-        </a>
-    </section>
+        panelContent.innerHTML = `
+            <p>
+                Tham gia bài kiểm tra gồm 8 câu hỏi
+                để củng cố kiến thức về hệ tuần hoàn.
+            </p>
 
-</div>
+            <div class="task-box">
+                <h3>Khám phá hệ tuần hoàn</h3>
+                <p>• 8 câu hỏi trắc nghiệm.</p>
+                <p>• Nội dung: cấu tạo và chức năng của tim, hệ mạch.</p>
+                <p>• Đánh giá kiến thức sau khi quan sát mô hình 3D.</p>
+            </div>
 
-<footer>
-    <p>ANATOMYVERSE - Khám phá cơ thể người bằng công nghệ 3D</p>
-    <p>Học tập trực quan - Tương tác - Sáng tạo</p>
-</footer>
+            <p style="margin-top:15px;">
+                Nhấn nút bên dưới để bắt đầu làm bài.
+            </p>
+
+            <a class="panel-link"
+               href="https://wayground.com/gameplay/admin/activity/classic/6af57a302abe19a75fb84a7d"
+               target="_blank"
+               rel="noopener">
+               BẮT ĐẦU KIỂM TRA
+            </a>
+        `;
+    }
+
+    else if (type === "task") {
+
+        panelTitle.textContent = "Nhiệm vụ khám phá";
+
+        panelContent.innerHTML = `
+            <div class="task-box">
+                <h3>Nhiệm vụ học tập</h3>
+                <p>1. Xác định vị trí các tĩnh mạch tim trên mô hình.</p>
+                <p>2. Quan sát đường đi của máu trong hệ thống tĩnh mạch tim.</p>
+                <p>3. Tìm hiểu vai trò của tĩnh mạch tim.</p>
+                <p>4. Trình bày kết quả quan sát với các bạn.</p>
+            </div>
+        `;
+    }
+}
+
+/* ĐÓNG BẢNG HỌC LIỆU */
+function closePanel() {
+    panel.classList.remove("show");
+
+    document.querySelectorAll(".tool-button")
+        .forEach(btn => btn.classList.remove("active"));
+}
+
+/* CHIA SẺ */
+async function sharePage() {
+    try {
+        if (navigator.share) {
+            await navigator.share({
+                title: "AnatomyVerse - Hệ tuần hoàn",
+                text: "Khám phá mô hình giải phẫu 3D hệ tuần hoàn.",
+                url: window.location.href
+            });
+        } else if (navigator.clipboard) {
+            await navigator.clipboard.writeText(window.location.href);
+            alert("Đã sao chép đường dẫn trang!");
+        } else {
+            alert("Trình duyệt không hỗ trợ chia sẻ tự động.");
+        }
+    } catch (error) {
+        if (error.name !== "AbortError") {
+            alert("Không thể chia sẻ trang.");
+        }
+    }
+}
+
+/* TOÀN MÀN HÌNH */
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen()
+            .catch(() => {
+                alert("Trình duyệt không hỗ trợ chế độ toàn màn hình.");
+            });
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+/* QUAY LẠI */
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = "index.html";
+    }
+}
+</script>
 
 </body>
 </html>

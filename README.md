@@ -1,2 +1,2 @@
 # AnatomyVerse
-Website học tập môn Sinh học
+Vũ trụ giải phẫu cơ thể người
